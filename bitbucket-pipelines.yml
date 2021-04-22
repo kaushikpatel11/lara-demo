@@ -1,0 +1,17 @@
+image: php:7.1
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Deploy to test
+          deployment: test
+          caches:
+            - composer
+          script:
+            - mkdir deployment-compressed
+            - tar --exclude='./deployment-compressed' -zcvf ./deployment-compressed/application.tgz .
+            - pipe: atlassian/heroku-deploy:0.1.1
+              variables:
+                HEROKU_API_KEY: $HEROKU_API_KEY
+                HEROKU_APP_NAME: demo-api-test
+                ZIP_FILE: "./deployment-compressed/application.tgz"

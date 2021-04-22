@@ -1,0 +1,14 @@
+staging:
+  type: deploy
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=fyb-api-st --api-key=$HEROKU_API_KEY
+  only:
+    - qa
+production:
+  type: deploy
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=fyb-api-st --api-key=$HEROKU_API_KEY
+  only:
+    - master
